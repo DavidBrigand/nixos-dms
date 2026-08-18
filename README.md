@@ -48,7 +48,7 @@ Conserver la configuration matérielle générée et la configuration de base de
 ```nix
 imports = [
   ./hardware-configuration.nix
-  /etc/nixos/nixos-dms/modules
+  ./nixos-dms/modules
 ];
 ```
 
