@@ -43,27 +43,13 @@ sudo nix-shell -p git --run "sudo git clone https://github.com/DavidBrigand/nixo
 
 ### 3. Adapter `configuration.nix`
 
-Conserver la configuration matérielle générée, puis ajouter l'import suivant
-dans la liste `imports` de `/etc/nixos/configuration.nix` :
+Conserver la configuration matérielle générée et la configuration de base de l'installateur (qui définit déjà le nom d'hôte, l'utilisateur et la version d'état), puis ajouter simplement l'import du module dans la liste `imports` de `/etc/nixos/configuration.nix` :
 
 ```nix
 imports = [
   ./hardware-configuration.nix
   /etc/nixos/nixos-dms/modules
 ];
-```
-
-Définir également dans ce fichier les informations propres au poste :
-
-```nix
-networking.hostName = "nom-du-poste";
-
-users.users.votre-utilisateur = {
-  isNormalUser = true;
-  extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
-};
-
-# Conserver sans modification la ligne `system.stateVersion` créée par l'installateur.
 ```
 
 ### 4. Activer DMS depuis `nixpkgs-unstable`
