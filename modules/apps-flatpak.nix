@@ -1,24 +1,7 @@
-{ ... }:
+{ config, pkgs, ... }:
 
-{
-  # Nécessite d'ajouter cet input dans flake.nix :
-  #
-  #   nix-flatpak.url = "github:gmodena/nix-flatpak";
-  #
-  # Le module nix-flatpak devra être importé par le futur flake. Il rend
-  # disponibles les options "remotes" et "packages" ci-dessous.
-
-  services.flatpak.enable = true;
-
-  services.flatpak.remotes = [
-    {
-      name = "flathub";
-      location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-    }
-  ];
-
-  # Liste déclarative des Flatpaks installés automatiquement à chaque rebuild
-  services.flatpak.packages = [
+let
+  flatpakPackages = [
     "org.mozilla.firefox"                 # Firefox
     "org.keepassxc.KeePassXC"             # Gestionnaire de mots de passe
     "io.github.totoshko88.RustConn"       # Gestionnaire de connexions distantes
@@ -26,7 +9,32 @@
     "com.github.tchx84.Flatseal"          # Gestion des permissions Flatpak
     "com.heroicgameslauncher.hgl"         # Heroic Games Launcher
     "com.visualstudio.code"               # Visual Studio Code
-    "org.mozilla.Thunderbird"              # Thunderbird
+    "org.mozilla.Thunderbird"             # Thunderbird
     "org.filezillaproject.Filezilla"      # FileZilla
   ];
+
+  flatpakInstallScript = pkgs.writeShellScript "install-flatpaks" ''
+    # S'assurer que la commande flatpak est disponible
+    if ! command -v flatpak &> /dev/null; then
+      exit 0
+    fi
+
+    # Ajouter le dépôt Flathub s'il n'existe pas
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+    # Installer chaque paquet s'il n'est pas déjà présent
+    for pkg in ${toString flatpakPackages}; do
+      flatpak install -y flathub "$pkg"
+    done
+  '';
+in
+{
+  services.flatpak.enable = true;
+
+  # Script d'activation pour installer automatiquement les Flatpaks au switch/rebuild de NixOS
+  system.activationScripts.install-flatpaks = {
+    text = ''
+      ${flatpakInstallScript}
+    '';
+  };
 }
