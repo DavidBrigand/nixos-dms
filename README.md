@@ -35,11 +35,10 @@ de la machine. Conserver ces deux fichiers.
 
 ### 2. Récupérer ce dépôt
 
-Après le premier démarrage, remplacer `<utilisateur-github>` par votre nom
-d'utilisateur GitHub :
+Après le premier démarrage, récupérer le dépôt dans `/etc/nixos` :
 
 ```bash
-sudo git clone https://github.com/<utilisateur-github>/nixos-dms.git /etc/nixos/nixos-dms
+sudo git clone https://github.com/DavidBrigand/nixos-dms.git /etc/nixos/nixos-dms
 ```
 
 ### 3. Adapter `configuration.nix`
