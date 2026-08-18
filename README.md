@@ -85,11 +85,7 @@ sudo nixos-rebuild switch
 Après la première connexion à Hyprland, lancer `dms setup` dans un terminal
 afin de créer les fichiers de configuration initiaux de DMS.
 
-> **Flatpaks :** `apps-flatpak.nix` utilise le module externe
-> [`nix-flatpak`](https://github.com/gmodena/nix-flatpak). Son intégration
-> déclarative complète sera ajoutée avec le futur `flake.nix`. Avant cela,
-> commentez `./apps-flatpak.nix` dans `modules/default.nix` si le module
-> `nix-flatpak` n'a pas été importé manuellement dans `configuration.nix`.
+> **Flatpaks :** `apps-flatpak.nix` active automatiquement le support de Flatpak dans NixOS, ajoute le dépôt Flathub et installe les applications déclarées via un script d'activation système lors de chaque `nixos-rebuild switch`, sans nécessiter l'usage des Flakes.
 
 ## Modules
 
