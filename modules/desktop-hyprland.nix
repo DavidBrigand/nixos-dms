@@ -16,5 +16,6 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";      # apps Electron/Chromium en natif Wayland
     MOZ_ENABLE_WAYLAND = "1";  # Firefox en natif Wayland
+    XKB_DEFAULT_LAYOUT = "fr"; # Configuration du clavier en AZERTY par défaut
   };
 }
