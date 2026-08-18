@@ -35,10 +35,10 @@ de la machine. Conserver ces deux fichiers.
 
 ### 2. Récupérer ce dépôt
 
-Après le premier démarrage, récupérer le dépôt dans `/etc/nixos` :
+Après le premier démarrage, récupérer le dépôt dans `/etc/nixos` (en utilisant `nix-shell` si `git` n'est pas installé par défaut) :
 
 ```bash
-sudo git clone https://github.com/DavidBrigand/nixos-dms.git /etc/nixos/nixos-dms
+sudo nix-shell -p git --run "sudo git clone https://github.com/DavidBrigand/nixos-dms.git /etc/nixos/nixos-dms"
 ```
 
 ### 3. Adapter `configuration.nix`
