@@ -15,15 +15,12 @@ if sudo grep -q "./nixos-dms/modules" "$CONFIG_FILE"; then
   echo "L'import de nixos-dms est déjà présent dans $CONFIG_FILE."
 else
   echo "Ajout de l'import de nixos-dms dans $CONFIG_FILE..."
-  # Utilisation d'un utilitaire standard POSIX/GNU (awk) au lieu de Python ou de sed complexe
-  sudo awk '
-    /imports = \[/ {
-      print
-      print "    ./nixos-dms/modules,"
-      next
+  sudo awk '{
+    print
+    if ($0 ~ /\.\/hardware-configuration\.nix/) {
+      print "    ./nixos-dms/modules"
     }
-    { print }
-  ' "$CONFIG_FILE" | sudo tee "${CONFIG_FILE}.tmp" > /dev/null
+  }' "$CONFIG_FILE" | sudo tee "${CONFIG_FILE}.tmp" > /dev/null
   sudo mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
 fi
 
