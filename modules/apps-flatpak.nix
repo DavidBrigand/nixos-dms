@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, lib, ... }:
 let
   flatpakPackages = [
     "org.mozilla.firefox"                 # Firefox
@@ -12,29 +11,35 @@ let
     "org.mozilla.Thunderbird"             # Thunderbird
     "org.filezillaproject.Filezilla"      # FileZilla
   ];
-
-  flatpakInstallScript = pkgs.writeShellScript "install-flatpaks" ''
-    # S'assurer que la commande flatpak est disponible
-    if ! command -v flatpak &> /dev/null; then
-      exit 0
-    fi
-
-    # Ajouter le dépôt Flathub s'il n'existe pas
-    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-    # Installer chaque paquet s'il n'est pas déjà présent
-    for pkg in ${toString flatpakPackages}; do
-      flatpak install -y flathub "$pkg"
-    done
-  '';
 in
 {
   services.flatpak.enable = true;
 
-  # Script d'activation pour installer automatiquement les Flatpaks au switch/rebuild de NixOS
-  system.activationScripts.install-flatpaks = {
-    text = ''
-      ${flatpakInstallScript}
+  # Service systemd (et non un activationScript) : il attend que le réseau
+  # et D-Bus soient réellement prêts avant de s'exécuter, contrairement aux
+  # activationScripts qui tournent trop tôt pendant l'activation du système.
+  systemd.services.install-flatpaks = {
+    description = "Installation déclarative des paquets Flatpak";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" "dbus.service" ];
+    wants = [ "network-online.target" ];
+
+    path = [ pkgs.flatpak ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true; # évite de le relancer à chaque démarrage une fois fait
+    };
+
+    script = ''
+      set -eu
+
+      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+      ${lib.concatMapStringsSep "\n" (pkg: ''
+        echo "Installation de ${pkg}..."
+        flatpak install -y flathub "${pkg}" || echo "Échec pour ${pkg}, on continue"
+      '') flatpakPackages}
     '';
   };
 }
