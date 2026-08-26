@@ -25,51 +25,17 @@ modules/
 Importer le dossier `modules` suffit : NixOS charge automatiquement son
 fichier `default.nix`.
 
-## Installation sur une nouvelle machine
+## Installation rapide (script automatisé)
 
-### 1. Installer NixOS normalement
-
-Démarrer l'ISO NixOS et effectuer l'installation. L'installateur crée notamment
-`/etc/nixos/configuration.nix` et `hardware-configuration.nix` pour le matériel
-de la machine. Conserver ces deux fichiers.
-
-### 2. Récupérer ce dépôt
-
-Après le premier démarrage, récupérer le dépôt dans `/etc/nixos` (en utilisant `nix-shell` si `git` n'est pas installé par défaut) :
+Il est possible d'automatiser les étapes 2 à 5 à l'aide du script [`install.sh`](install.sh:1) présent à la racine du dépôt :
 
 ```bash
-sudo nix-shell -p git --run "sudo git clone https://github.com/DavidBrigand/nixos-dms.git /etc/nixos/nixos-dms"
+curl -sSL https://raw.githubusercontent.com/DavidBrigand/nixos-dms/main/install.sh | bash
 ```
 
-### 3. Adapter `configuration.nix`
+*(Ou en clonant manuellement le dépôt et en exécutant `./install.sh` depuis `/etc/nixos/nixos-dms`)*.
 
-Conserver la configuration matérielle générée et la configuration de base de l'installateur (qui définit déjà le nom d'hôte, l'utilisateur et la version d'état), puis ajouter simplement l'import du module dans la liste `imports` de `/etc/nixos/configuration.nix` :
-
-```nix
-imports = [
-  ./hardware-configuration.nix
-  ./nixos-dms/modules
-];
-```
-
-### 4. Activer DMS depuis `nixpkgs-unstable`
-
-À ce stade, `desktop-dms.nix` utilise le channel `unstable`. L'ajouter une fois
-sur la machine :
-
-```bash
-sudo nix-channel --add https://nixos.org/channels/nixos-unstable unstable
-sudo nix-channel --update
-```
-
-### 5. Appliquer la configuration
-
-```bash
-sudo nixos-rebuild switch
-```
-
-Après la première connexion à Hyprland, lancer `dms setup` dans un terminal
-afin de créer les fichiers de configuration initiaux de DMS.
+## Installation manuelle pas à pas
 
 > **Flatpaks :** `apps-flatpak.nix` active automatiquement le support de Flatpak dans NixOS, ajoute le dépôt Flathub et installe l'application `easyflatpak` via un service systemd lors de chaque déploiement.
 
