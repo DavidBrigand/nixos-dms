@@ -71,7 +71,7 @@ sudo nixos-rebuild switch
 Après la première connexion à Hyprland, lancer `dms setup` dans un terminal
 afin de créer les fichiers de configuration initiaux de DMS.
 
-> **Flatpaks :** `apps-flatpak.nix` active automatiquement le support de Flatpak dans NixOS, ajoute le dépôt Flathub et installe les applications déclarées via un script d'activation système lors de chaque `nixos-rebuild switch`, sans nécessiter l'usage des Flakes.
+> **Flatpaks :** `apps-flatpak.nix` active automatiquement le support de Flatpak dans NixOS, ajoute le dépôt Flathub et installe l'application `easyflatpak` via un service systemd lors de chaque déploiement.
 
 ## Modules
 
@@ -79,7 +79,7 @@ afin de créer les fichiers de configuration initiaux de DMS.
 | --- | --- |
 | `modules/default.nix` | Liste centralisée des modules importés par le dépôt. |
 | `modules/apps-core.nix` | Applications NixOS communes : Nautilus, Kitty, utilitaires Wayland, GVFS et montage de disques. |
-| `modules/apps-flatpak.nix` | Déclaration des applications Flathub : Firefox, KeePassXC, RustConn, Bazaar, Flatseal, Heroic, VS Code, Thunderbird et FileZilla. |
+| `modules/apps-flatpak.nix` | Active le support Flatpak, ajoute le dépôt Flathub et installe l'application `easyflatpak`. |
 | `modules/apps-fonts.nix` | Polices Noto, Inter, JetBrains Mono Nerd Font et symboles Material. |
 | `modules/desktop-hyprland.nix` | Hyprland, XWayland, portails XDG et variables Wayland. |
 | `modules/desktop-dms.nix` | DMS depuis `nixpkgs-unstable` et ses fonctionnalités. |
