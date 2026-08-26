@@ -27,8 +27,6 @@ fichier `default.nix`.
 
 ## Installation rapide (script automatisé)
 
-Il est possible d'automatiser les étapes 2 à 5 à l'aide du script [`install.sh`](install.sh:1) présent à la racine du dépôt :
-
 ```bash
 curl -sSL https://raw.githubusercontent.com/DavidBrigand/nixos-dms/main/install.sh | bash
 ```
