@@ -15,21 +15,20 @@ if sudo grep -q "./nixos-dms/modules" "$CONFIG_FILE"; then
   echo "L'import de nixos-dms est déjà présent dans $CONFIG_FILE."
 else
   echo "Ajout de l'import de nixos-dms dans $CONFIG_FILE..."
-  sudo python3 -c '
-path = "/etc/nixos/configuration.nix"
-with open(path, "r") as f:
+  # Utilisation d'un nix-shell avec python3 pour garantir la disponibilité de l'interpréteur de manière sûre et isolée
+  sudo nix-shell -p python3 --run "python3 -c '
+path = \"/etc/nixos/configuration.nix\"
+with open(path, \"r\") as f:
     content = f.read()
 
 import re
-# Cherche imports = [ ... ] et ajoute ./nixos-dms/modules dedans
-if "./nixos-dms/modules" not in content:
-    new_content = re.sub(r"(imports\s*=\s*\[)", r"\1\n    ./nixos-dms/modules,", content, count=1)
+if \"./nixos-dms/modules\" not in content:
+    new_content = re.sub(r\"(imports\s*=\s*\[)\", r\"\\1\\n    ./nixos-dms/modules,\", content, count=1)
     if new_content == content:
-        # Fallback si format différent
-        new_content = content.replace("imports = [", "imports = [\n    ./nixos-dms/modules,")
-    with open(path, "w") as f:
+        new_content = content.replace(\"imports = [\", \"imports = [\\n    ./nixos-dms/modules,\")
+    with open(path, \"w\") as f:
         f.write(new_content)
-'
+'"
 fi
 
 echo "=== 3. Ajout du canal unstable (pour DMS) ==="
