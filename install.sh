@@ -11,11 +11,25 @@ fi
 
 echo "=== 2. Vérification / Ajout de l'import dans configuration.nix ==="
 CONFIG_FILE="/etc/nixos/configuration.nix"
-if grep -q "./nixos-dms/modules" "$CONFIG_FILE"; then
+if sudo grep -q "./nixos-dms/modules" "$CONFIG_FILE"; then
   echo "L'import de nixos-dms est déjà présent dans $CONFIG_FILE."
 else
   echo "Ajout de l'import de nixos-dms dans $CONFIG_FILE..."
-  sudo sed -i '/imports = \[/a \    ./nixos-dms/modules' "$CONFIG_FILE"
+  sudo python3 -c '
+path = "/etc/nixos/configuration.nix"
+with open(path, "r") as f:
+    content = f.read()
+
+import re
+# Cherche imports = [ ... ] et ajoute ./nixos-dms/modules dedans
+if "./nixos-dms/modules" not in content:
+    new_content = re.sub(r"(imports\s*=\s*\[)", r"\1\n    ./nixos-dms/modules,", content, count=1)
+    if new_content == content:
+        # Fallback si format différent
+        new_content = content.replace("imports = [", "imports = [\n    ./nixos-dms/modules,")
+    with open(path, "w") as f:
+        f.write(new_content)
+'
 fi
 
 echo "=== 3. Ajout du canal unstable (pour DMS) ==="
