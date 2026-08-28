@@ -45,10 +45,12 @@ curl -sSL https://raw.githubusercontent.com/DavidBrigand/nixos-dms/main/install.
 | `modules/apps-core.nix` | Applications NixOS communes : Nautilus, Kitty, utilitaires Wayland, GVFS et montage de disques. |
 | `modules/apps-flatpak.nix` | Active le support Flatpak, ajoute le dépôt Flathub et installe l'application `easyflatpak`. |
 | `modules/apps-fonts.nix` | Polices Noto, Inter, JetBrains Mono Nerd Font et symboles Material. |
+| `modules/apps-gaming.nix` | Applications et outils pour le jeu (Steam, Lutris, etc.). |
 | `modules/desktop-hyprland.nix` | Hyprland, XWayland, portails XDG et variables Wayland. |
 | `modules/desktop-dms.nix` | DMS depuis `nixpkgs-unstable` et ses fonctionnalités. |
 | `modules/desktop-greetd.nix` | Écran de connexion DMS avec Hyprland et clavier français. |
 | `modules/gaming-graphics.nix` | Blocs commentés pour les configurations jeu NVIDIA seule, AMD ou Intel. |
+| `modules/imprimante.nix` | Configuration des services d'impression et pilotes. |
 | `modules/networking.nix` | NetworkManager et pare-feu. Le nom d'hôte reste dans le `configuration.nix` de la machine. |
 | `modules/system.nix` | PipeWire, Polkit, RTKit, nettoyage automatique du store Nix et activation future des flakes. |
 
