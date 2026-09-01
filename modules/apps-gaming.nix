@@ -4,6 +4,7 @@
     heroic
     lutris
     mangohud
+    moonlight-qt
   ];
 
   environment.sessionVariables = {
