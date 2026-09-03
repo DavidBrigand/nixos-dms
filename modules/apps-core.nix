@@ -100,7 +100,7 @@ programs.bash.shellAliases = {
         nix-list="nixos-rebuild list-generations";
         nix-clean="sudo nix-collect-garbage -d";
         nix-rollback="sudo nixos-rebuild switch --rollback";
-        nix-upgrade="/bin/sh ~/Scripts/nix-up.sh";
+        nix-upgrade="/bin/sh /etc/nixos/nixos-dms/nix-up.sh";
         monip="curl ipinfo.io/ip";
   };
 
