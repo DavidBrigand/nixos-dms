@@ -31,7 +31,15 @@ fichier `default.nix`.
 curl -sSL https://raw.githubusercontent.com/DavidBrigand/nixos-dms/main/install.sh | bash
 ```
 
-*(Ou en clonant manuellement le dépôt et en exécutant `./install.sh` depuis `/etc/nixos/nixos-dms`)*.
+*(Ou en clonant manuellement le dépôt et en exécutant `./install.sh` depuis [`/etc/nixos/nixos-dms`](./install.sh))*.
+
+## Script de mise à jour (`nix-up.sh`)
+
+Le script [`nix-up.sh`](./nix-up.sh) permet de faire une mise à jour du système (`nixos-rebuild switch --upgrade`) tout en comparant la liste des paquets avant et après la mise à jour (via `nix-store`), affichant ainsi clairement les différences entre les deux versions.
+
+```bash
+./nix-up.sh
+```
 
 ## Installation manuelle pas à pas
 
