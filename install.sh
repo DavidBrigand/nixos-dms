@@ -31,5 +31,8 @@ sudo nix-channel --update
 echo "=== 4. Application de la configuration NixOS ==="
 sudo nixos-rebuild switch
 
-echo "=== Terminé ! ==="
-echo "Pensez à lancer 'dms setup' dans votre session Hyprland après la première connexion."
+echo "=== 5. MAJ des dossier du repertoire home ==="
+nix-shell -p xdg-user-dirs --run "xdg-user-dirs-update"
+
+echo "=== 6. Configuration de DMS ==="
+dms setup
