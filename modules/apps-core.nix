@@ -8,6 +8,7 @@
     file-roller        	# gestion des archives (zip, tar...)
     gnome-disk-utility  # équivalent GNOME Disks
     papers 		# Lecteur PDF Gnome
+    gradia    # Editeur d'image
 
     # Terminal (léger, très adapté à Hyprland/Wayland)
     kitty
