@@ -107,10 +107,3 @@ Le script [`nix-up.sh`](./nix-up.sh) permet de faire une mise à jour du systèm
 | `modules/imprimante.nix` | Configuration des services d'impression et pilotes. |
 | `modules/networking.nix` | NetworkManager et pare-feu. Le nom d'hôte reste dans le `configuration.nix` de la machine. |
 | `modules/system.nix` | PipeWire, Polkit, RTKit, nettoyage automatique du store Nix et activation future des flakes. |
-
-## À venir
-
-- Ajouter un `flake.nix` et un `flake.lock` pour verrouiller les versions de
-  `nixpkgs-unstable` et `nix-flatpak`.
-- Remplacer le channel `unstable` par une dépendance déclarative.
-- Synchroniser le dépôt avec GitHub.
