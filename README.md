@@ -25,6 +25,48 @@ modules/
 Importer le dossier `modules` suffit : NixOS charge automatiquement son
 fichier `default.nix`.
 
+### Modules optionnels par défaut (`cifs.nix`, `gaming-amd.nix`, `gaming-nvidia.nix`)
+
+Par défaut, certains modules spécifiques ou matériels ne sont **pas chargés** car commentés dans [`modules/default.nix`](modules/default.nix:1) :
+- `cifs.nix` (montage de partages réseau)
+- `gaming-amd.nix` (pilotes et paramètres graphiques pour cartes graphiques AMD)
+- `gaming-nvidia.nix` (pilotes et paramètres graphiques pour cartes graphiques NVIDIA)
+
+Pour les activer selon la configuration de votre machine, vous disposez de deux méthodes :
+
+#### Méthode 1 : Décommenter directement dans `modules/default.nix`
+Modifiez [`modules/default.nix`](modules/default.nix:1) pour décommenter la ligne correspondante :
+```nix
+  imports = [
+    ./apps-core.nix
+    ./apps-flatpak.nix
+    ./apps-fonts.nix
+    ./apps-gaming.nix
+    ./boot.nix
+    ./cifs.nix             # Activé
+    ./desktop-dms.nix
+    ./desktop-greetd.nix
+    ./desktop-hyprland.nix
+    ./gaming-common.nix
+    ./gaming-nvidia.nix    # Activé pour une machine NVIDIA
+    #./gaming-amd.nix
+    ./imprimante.nix
+    ./networking.nix
+    ./system.nix
+  ];
+```
+
+#### Méthode 2 : Importer spécifiquement depuis votre `configuration.nix` hôte
+Si vous préférez garder le dépôt intact, vous pouvez importer le module directement depuis le fichier de configuration principal de votre machine (`/etc/nixos/configuration.nix`) :
+```nix
+  imports = [
+    ./hardware-configuration.nix
+    ./nixos-dms/modules            # Importe le socle commun
+    ./nixos-dms/modules/cifs.nix   # Active CIFS sur cette machine
+    ./nixos-dms/modules/gaming-amd.nix # Active les optimisations AMD sur cette machine
+  ];
+```
+
 ## Installation rapide (script automatisé)
 
 ```bash
@@ -65,10 +107,3 @@ Le script [`nix-up.sh`](./nix-up.sh) permet de faire une mise à jour du systèm
 | `modules/imprimante.nix` | Configuration des services d'impression et pilotes. |
 | `modules/networking.nix` | NetworkManager et pare-feu. Le nom d'hôte reste dans le `configuration.nix` de la machine. |
 | `modules/system.nix` | PipeWire, Polkit, RTKit, nettoyage automatique du store Nix et activation future des flakes. |
-
-## À venir
-
-- Ajouter un `flake.nix` et un `flake.lock` pour verrouiller les versions de
-  `nixpkgs-unstable` et `nix-flatpak`.
-- Remplacer le channel `unstable` par une dépendance déclarative.
-- Synchroniser le dépôt avec GitHub.
