@@ -40,7 +40,7 @@
    };
 
     # Charger les modules NVIDIA tôt dans l'initrd (Early KMS)
-    initrd.kernelModules = [
+    boot.initrd.kernelModules = [
       "nvidia"
       "nvidia_modeset"
       "nvidia_uvm"
