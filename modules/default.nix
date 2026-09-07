@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./boot.nix
     ./networking.nix
     ./system.nix
     ./apps-core.nix
