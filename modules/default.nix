@@ -2,18 +2,20 @@
 
 {
   imports = [
-    ./boot.nix
-    ./networking.nix
-    ./system.nix
     ./apps-core.nix
-    ./apps-gaming.nix
     ./apps-flatpak.nix
     ./apps-fonts.nix
-    ./gaming-graphics.nix
-    ./desktop-hyprland.nix
+    ./apps-gaming.nix
+    ./boot.nix
+    ./cifs.nix
     ./desktop-dms.nix
     ./desktop-greetd.nix
-    ./cifs.nix
+    ./desktop-hyprland.nix
+    ./gaming-common.nix
+    ./gaming-nvidia.nix
+    ./gaming-amd.nix
     ./imprimante.nix
+    ./networking.nix
+    ./system.nix
   ];
 }

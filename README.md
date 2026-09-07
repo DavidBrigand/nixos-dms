@@ -17,7 +17,7 @@ modules/
 ├── default.nix              # Point d'entrée : importe tous les modules
 ├── apps-*.nix               # Applications et polices
 ├── desktop-*.nix            # Hyprland, DMS et écran de connexion
-├── gaming-graphics.nix      # Modèles de configuration graphique pour le jeu
+├── gaming-*.nix             # Configurations pour le jeu (commun, NVIDIA, AMD)
 ├── networking.nix           # Réseau et pare-feu
 └── system.nix               # Services et entretien du système
 ```
@@ -54,10 +54,14 @@ Le script [`nix-up.sh`](./nix-up.sh) permet de faire une mise à jour du systèm
 | `modules/apps-flatpak.nix` | Active le support Flatpak, ajoute le dépôt Flathub et installe l'application `easyflatpak`. |
 | `modules/apps-fonts.nix` | Polices Noto, Inter, JetBrains Mono Nerd Font et symboles Material. |
 | `modules/apps-gaming.nix` | Applications et outils pour le jeu (Steam, Lutris, etc.). |
-| `modules/desktop-hyprland.nix` | Hyprland, XWayland, portails XDG et variables Wayland. |
-| `modules/desktop-dms.nix` | DMS depuis `nixpkgs-unstable` et ses fonctionnalités. |
-| `modules/desktop-greetd.nix` | Écran de connexion DMS avec Hyprland et clavier français. |
-| `modules/gaming-graphics.nix` | Blocs commentés pour les configurations jeu NVIDIA seule, AMD ou Intel. |
+| [`modules/boot.nix`](modules/boot.nix:1) | Configuration du chargeur de démarrage et des options de kernel. |
+| [`modules/cifs.nix`](modules/cifs.nix:1) | Montage de partages réseau CIFS / SMB. |
+| [`modules/desktop-hyprland.nix`](modules/desktop-hyprland.nix:1) | Hyprland, XWayland, portails XDG et variables Wayland. |
+| [`modules/desktop-dms.nix`](modules/desktop-dms.nix:1) | DMS depuis `nixpkgs-unstable` et ses fonctionnalités. |
+| [`modules/desktop-greetd.nix`](modules/desktop-greetd.nix:1) | Écran de connexion DMS avec Hyprland et clavier français. |
+| [`modules/gaming-amd.nix`](modules/gaming-amd.nix:1) | Paramètres graphiques et pilotes spécifiques au jeu sur AMD. |
+| [`modules/gaming-common.nix`](modules/gaming-common.nix:1) | Paramètres communs pour le jeu (optimisations, etc.). |
+| [`modules/gaming-nvidia.nix`](modules/gaming-nvidia.nix:1) | Paramètres graphiques et pilotes spécifiques au jeu sur NVIDIA. |
 | `modules/imprimante.nix` | Configuration des services d'impression et pilotes. |
 | `modules/networking.nix` | NetworkManager et pare-feu. Le nom d'hôte reste dans le `configuration.nix` de la machine. |
 | `modules/system.nix` | PipeWire, Polkit, RTKit, nettoyage automatique du store Nix et activation future des flakes. |
