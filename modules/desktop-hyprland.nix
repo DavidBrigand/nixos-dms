@@ -7,6 +7,8 @@
     xwayland.enable = true; # compatibilité avec les apps X11
   };
 
+  programs.hyprlock.enable = true;
+
   # Portails XDG nécessaires au partage d'écran, sélecteurs de fichiers natifs, etc.
   xdg.portal = {
     enable = true;
