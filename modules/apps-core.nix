@@ -57,6 +57,7 @@
     adwaita-icon-theme
     xdg-utils
     bibata-cursors
+    appimage-run
   ];
 
 # Firefox 100% Français

@@ -1,27 +1,27 @@
 { config, pkgs, ... }:
 
 let
-  unstable = import <unstable> {
+  unstablePkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") {
     inherit (pkgs.stdenv.hostPlatform) system;
+    config.allowUnfree = true;
   };
 in
 {
-    programs.dms-shell = {
+  # 1. Configuration principale de DMS Shell
+  programs.dms-shell = {
     enable = true;
-
-    # Utilise DMS depuis nixpkgs-unstable
-    package = unstable.dms-shell;
+    package = unstablePkgs.dms-shell;
 
     systemd = {
       enable = true;
       restartIfChanged = true;
     };
 
-    # Core features
     enableSystemMonitoring = true;
     enableVPN = true;
     enableDynamicTheming = true;
     enableAudioWavelength = true;
     enableCalendarEvents = true;
   };
+
 }
